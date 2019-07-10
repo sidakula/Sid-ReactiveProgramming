@@ -1,14 +1,14 @@
 package com.reactive.repo;
 
-import com.reactive.model.User;
+import com.reactive.model.SSNDetails;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface SSNRepository{ 
-	Mono<User> getUserById(int id);
+	Mono<SSNDetails> getSSNById(int id);
 
-	Flux<User> getAllUsers();
+	Flux<SSNDetails> fetchAll();
 
-	Mono<Void> saveUser(Mono<User> user);
+	Mono<Void> saveSSN(Mono<SSNDetails> user);
 }

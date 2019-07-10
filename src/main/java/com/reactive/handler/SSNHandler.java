@@ -1,12 +1,15 @@
 package com.reactive.handler;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import com.reactive.model.User;
+
+import com.reactive.model.SSNDetails;
 import com.reactive.repo.SSNRepository;
 
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,24 +19,24 @@ public class SSNHandler {
 	public SSNHandler(SSNRepository ssnRepository) {
 		this.ssnRepository = ssnRepository;
 	}
-	public Mono<ServerResponse> listUser(ServerRequest request) {
-		Flux<User> user = ssnRepository.getAllUsers();
-		return ServerResponse.ok().contentType(APPLICATION_JSON).body(user, User.class);
+	public Mono<ServerResponse> listSSN(ServerRequest request) {
+		Flux<SSNDetails> user = ssnRepository.fetchAll();
+		return ServerResponse.ok().contentType(APPLICATION_JSON).body(user, SSNDetails.class);
 	}
 
-	public Mono<ServerResponse> getUser(ServerRequest request) {
+	public Mono<ServerResponse> getSSNDetails(ServerRequest request) {
 		int userId = Integer.valueOf(request.pathVariable("id"));
 		Mono<ServerResponse> notFound = ServerResponse.notFound().build();
-		Mono<User> userMono = ssnRepository.getUserById(userId);
+		Mono<SSNDetails> userMono = ssnRepository.getSSNById(userId);
 		return userMono.flatMap(user -> ServerResponse.ok()
 				.contentType(APPLICATION_JSON)
 				.body(BodyInserters.fromObject(user)))
 				.switchIfEmpty(notFound);
 	}
 
-	public Mono<ServerResponse> createUser(ServerRequest request) {
-		System.out.println("in create user");
-		Mono<User> user = request.bodyToMono(User.class);
-		return ServerResponse.ok().build(ssnRepository.saveUser(user));
+	public Mono<ServerResponse> createSSN(ServerRequest request) {
+		Mono<SSNDetails> user = request.bodyToMono(SSNDetails.class);
+		UriBuilder builder = request.uriBuilder();
+		return ServerResponse.created(builder.build()).build(ssnRepository.saveSSN(user));
 	}
 }

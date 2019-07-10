@@ -9,7 +9,8 @@ import com.reactive.handler.WebClient;
 public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-		WebClient uwc = new WebClient();
-		System.out.println(uwc.getResult());
+		
+		WebClient webClient = new WebClient();
+	      System.out.println(webClient.getResult());
 	}
 }

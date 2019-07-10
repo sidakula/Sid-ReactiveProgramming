@@ -1,25 +1,27 @@
 package com.reactive.model;
 
-public class User {
-	private long id;
+public class SSNDetails {
+	private long socialSecurityNo;
 	private String firstName;
 	private String lastName;
 	private String email;
+	private Address address;
 
-	public User() {
+	public SSNDetails() {
 
 	}
-	public User(long id, String firstName, String lastName, String email) {
-		this.id = id;
+	public SSNDetails(long id, String firstName, String lastName, String email, Address address) {
+		this.socialSecurityNo = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.address = address;
 	}
-	public long getId() {
-		return id;
+	public long getSocialSecurityNo() {
+		return socialSecurityNo;
 	}
-	public void setId(long id) {
-		this.id = id;
+	public void setSocialSecurityNo(long socialSecurityNo) {
+		this.socialSecurityNo = socialSecurityNo;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -38,5 +40,13 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }
